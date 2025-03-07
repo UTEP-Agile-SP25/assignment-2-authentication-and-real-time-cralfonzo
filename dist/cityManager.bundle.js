@@ -210,6 +210,16 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 
 /***/ }),
 
+/***/ "./src/cityManager.js":
+/*!****************************!*\
+  !*** ./src/cityManager.js ***!
+  \****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _auth__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./auth */ \"./src/auth.js\");\n/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./config */ \"./src/config.js\");\n/* harmony import */ var firebase_firestore__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! firebase/firestore */ \"./node_modules/firebase/firestore/dist/esm/index.esm.js\");\n\r\n\r\n\r\n\r\nconst saveCity =  async function() \r\n{\r\n    const cityName = document.getElementById(\"cityname\").value.trim()\r\n    const population = document.getElementById(\"population\").value.trim()\r\n    const country = document.getElementById(\"country\").value.trim()\r\n\r\n    try{\r\n        const cityRef = (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_2__.doc)(_config__WEBPACK_IMPORTED_MODULE_1__.db,\"cities\",cityName.toLowerCase()+\"-\"+country.toLowerCase())\r\n\r\n        await (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_2__.setDoc)(cityRef,{\r\n            name:cityName,\r\n            population:population,\r\n            country:country,\r\n            time: new Date()\r\n        })\r\n        console.log(\"City Successfully created\")\r\n        document.getElementById(\"cityname\").value = \"\"\r\n        document.getElementById(\"population\").value = \"\"\r\n        document.getElementById(\"country\").value = \"\"\r\n\r\n    }catch(error)\r\n    {\r\n        console.error(\"Error saving city: \", error)\r\n    }\r\n}\r\n\r\nconst deleteCity = async function(collection, docID){\r\n    try{\r\n        await (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_2__.deleteDoc)((0,firebase_firestore__WEBPACK_IMPORTED_MODULE_2__.doc)(_config__WEBPACK_IMPORTED_MODULE_1__.db, collection, docID))\r\n        console.log(`Document with ID ${docID} deleted successfully`)\r\n    }catch(error){\r\n        console.error(\"Error deleting city\", error)\r\n    }\r\n}\r\n\r\nconst cityCollection = (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_2__.collection)(_config__WEBPACK_IMPORTED_MODULE_1__.db, \"cities\")\r\n;(0,firebase_firestore__WEBPACK_IMPORTED_MODULE_2__.onSnapshot)(cityCollection, (snapshot)=>{\r\n    const tableBody = document.getElementById(\"table-body\")\r\n    tableBody.innerHTML = \"\"\r\n\r\n    snapshot.forEach((doc)=>{\r\n        const data = doc.data()\r\n        const row = document.createElement(\"tr\")\r\n\r\n        row.innerHTML = `\r\n        <td> ${doc.id}</td>\r\n        <td> ${data.name}</td>\r\n        <td> ${data.country}</td>\r\n        <td> ${data.population}</td>\r\n        `\r\n        tableBody.appendChild(row)\r\n    })\r\n})\r\n\r\n\r\nconst addCityForm = document.querySelector(\"#addCity\")\r\naddCityForm.addEventListener(\"submit\", (event)=>{\r\n    event.preventDefault()\r\n    saveCity()\r\n})\r\n\r\nconst deleteCityForm = document.querySelector(\"#deleteCity\")\r\ndeleteCityForm.addEventListener(\"submit\", (event)=>{\r\n    event.preventDefault()\r\n    const city = document.getElementById(\"cityID\").value\r\n    deleteCity(\"cities\", city)\r\n})\n\n//# sourceURL=webpack://assignment-2-authentication-and-real-time-cralfonzo/./src/cityManager.js?");
+
+/***/ }),
+
 /***/ "./src/config.js":
 /*!***********************!*\
   !*** ./src/config.js ***!
@@ -292,7 +302,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module can't be inlined because the eval devtool is used.
-/******/ 	var __webpack_exports__ = __webpack_require__("./src/auth.js");
+/******/ 	var __webpack_exports__ = __webpack_require__("./src/cityManager.js");
 /******/ 	
 /******/ })()
 ;
